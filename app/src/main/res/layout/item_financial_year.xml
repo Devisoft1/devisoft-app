@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    android:radius="8dp">
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="20dp"
             android:gravity="center">
 
                 <TextView
                     android:id="@+id/yearTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Financial Year"
+                    android:text="2024-2025"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"/>
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#212121" />
 
         </LinearLayout>
+
 </androidx.cardview.widget.CardView>

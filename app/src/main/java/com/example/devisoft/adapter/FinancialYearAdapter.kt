@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.devisoft.R
 import com.example.devisoft.models.FinancialYear
 
-class FinancialYearAdapter(private val financialYears: List<FinancialYear>) :
-    RecyclerView.Adapter<FinancialYearAdapter.FinancialYearViewHolder>() {
+class FinancialYearAdapter(
+    private val financialYears: List<FinancialYear>,
+    private val onItemClick: (FinancialYear) -> Unit
+) : RecyclerView.Adapter<FinancialYearAdapter.FinancialYearViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FinancialYearViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_financial_year, parent, false)
@@ -18,7 +20,7 @@ class FinancialYearAdapter(private val financialYears: List<FinancialYear>) :
 
     override fun onBindViewHolder(holder: FinancialYearViewHolder, position: Int) {
         val financialYear = financialYears[position]
-        holder.bind(financialYear)
+        holder.bind(financialYear, onItemClick)
     }
 
     override fun getItemCount(): Int = financialYears.size
@@ -26,8 +28,11 @@ class FinancialYearAdapter(private val financialYears: List<FinancialYear>) :
     class FinancialYearViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val yearTextView: TextView = itemView.findViewById(R.id.yearTextView)
 
-        fun bind(financialYear: FinancialYear) {
+        fun bind(financialYear: FinancialYear, onItemClick: (FinancialYear) -> Unit) {
             yearTextView.text = financialYear.fyear
+            itemView.setOnClickListener {
+                onItemClick(financialYear)
+            }
         }
     }
 }

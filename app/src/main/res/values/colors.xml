@@ -8,5 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#496BD7</color>
+    <!-- In res/values/colors.xml -->
+    <color name="primaryBlue">#1976D2</color>
+    <color name="accentOrange">#FF9800</color>
+    <color name="backgroundLight">#FAFAFA</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+
 
 </resources>

@@ -1,11 +1,11 @@
 package com.example.devisoft.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,18 +13,14 @@ import com.example.devisoft.R
 import com.example.devisoft.adapters.FinancialYearAdapter
 import com.example.devisoft.models.FinancialYear
 import com.example.devisoft.network.RetrofitInstance
-import com.example.devisoft.utils.Constants
 import com.example.devisoft.utils.PrefManager
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import retrofit2.Response
 
 class YearSelectionActivity : ComponentActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var financialYearAdapter: FinancialYearAdapter
-    private lateinit var selectYearButton: Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +53,6 @@ class YearSelectionActivity : ComponentActivity() {
                     val financialYears = response.body()
                     Log.d("YearSelection", "Financial years: $financialYears")
 
-                    // Set up RecyclerView with financial years
                     setupRecyclerView(financialYears)
                 } else {
                     Log.e("YearSelection", "Failed: ${response.code()} ${response.message()}")
@@ -75,10 +70,21 @@ class YearSelectionActivity : ComponentActivity() {
     }
 
     private fun setupRecyclerView(financialYears: List<FinancialYear>?) {
-        financialYearAdapter = FinancialYearAdapter(financialYears ?: emptyList())
+        financialYearAdapter = FinancialYearAdapter(financialYears ?: emptyList()) { selectedYear ->
+
+            val fyear = selectedYear.fyear // "01/04/2024 TO 31/03/2025"
+            val dates = fyear.split(" TO ")
+            val fromDate = dates[0]     // "01/04/2024"
+            val toDate = dates[1]       // "31/03/2025"
+
+            val intent = Intent(this, CompanyDetailsActivity::class.java)
+            intent.putExtra("FROM_DATE", fromDate)
+            intent.putExtra("TO_DATE", toDate)
+            startActivity(intent)
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = financialYearAdapter
     }
-
 
 }
