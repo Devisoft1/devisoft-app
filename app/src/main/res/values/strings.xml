@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">DeviSoft</string>
+
+    <string-array name="criteria_options">
+        <item>Date Wise</item>
+        <item>Party Wise</item>
+        <item>Salesman</item>
+        <item>SubAgent Wise</item>
+        <item>Route Wise</item>
+        <item>Area Wise</item>
+        <item>Route + Salesman</item>
+    </string-array>
+
+    <string-array name="operator_options">
+        <item>=</item> <!-- Equal to -->
+        <item>&gt;</item> <!-- Greater than -->
+        <item>&lt;</item> <!-- Less than -->
+        <item>≥</item> <!-- Greater than or Equal to -->
+        <item>≤</item> <!-- Less than or Equal to -->
+    </string-array>
+
 </resources>

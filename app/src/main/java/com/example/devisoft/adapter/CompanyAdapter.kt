@@ -1,6 +1,5 @@
-package com.example.devisoft.adapters
+package com.example.devisoft.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.devisoft.R
 import com.example.devisoft.models.Company
-import com.example.devisoft.activities.CompanyDetailsActivity  // Import the relevant activity
 
-class CompanyAdapter(private val companies: List<Company>) :
-    RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
+
+class CompanyAdapter(
+    private val companies: List<Company>,
+    private val onItemClick: (Company) -> Unit // click listener passed from activity
+) : RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -20,8 +21,7 @@ class CompanyAdapter(private val companies: List<Company>) :
     }
 
     override fun onBindViewHolder(holder: CompanyViewHolder, position: Int) {
-        val company = companies[position]
-        holder.bind(company)
+        holder.bind(companies[position])
     }
 
     override fun getItemCount(): Int = companies.size
@@ -33,12 +33,7 @@ class CompanyAdapter(private val companies: List<Company>) :
             nameTextView.text = company.Name
 
             itemView.setOnClickListener {
-                // When the company is clicked, pass its code in the URL (intent)
-                val context = itemView.context
-                val intent = Intent(context, CompanyDetailsActivity::class.java)
-                // You can add the company code or other details in the Intent
-                intent.putExtra("COMPANY_CODE", company.CompCode)
-                context.startActivity(intent)
+                onItemClick(company) // trigger callback on click
             }
         }
     }

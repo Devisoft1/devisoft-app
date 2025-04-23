@@ -1,9 +1,12 @@
 package com.example.devisoft.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
@@ -26,8 +29,32 @@ class YearSelectionActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_year_selection)
 
+        // Set title and logo
+        val titleText: TextView = findViewById(R.id.appBarTitle)
+        titleText.text = "Select Financial Year"  // Set dynamic title
+
+        val logoImage: ImageView = findViewById(R.id.appBarLogo)
+        logoImage.setOnClickListener {
+            val url = "https://devisoft.co.in/"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+
+        // Back Button Logic
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            val prefManager = PrefManager(this)
+            prefManager.clear()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+
         recyclerView = findViewById(R.id.financialYearRecyclerView)
 
+        // Fetch financial years from API
         val prefManager = PrefManager(this)
         val accessToken = prefManager.getAccessToken()
         val userId = prefManager.getUserId()
@@ -86,5 +113,4 @@ class YearSelectionActivity : ComponentActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = financialYearAdapter
     }
-
 }

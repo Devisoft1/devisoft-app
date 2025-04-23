@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.jvm.java
 
 
-class LoginActivity : AppCompatActivity() {
+class  LoginActivity : AppCompatActivity() {
 
     private lateinit var edtUsername: EditText
     private lateinit var edtPassword: EditText

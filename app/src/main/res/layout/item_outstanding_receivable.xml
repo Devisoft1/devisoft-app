@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/rowContainer"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:contentDescription="Row with multiple fields">
+
+        <!-- Display few fields, add more if needed -->
+
+        <TextView
+            android:id="@+id/tvField1"
+            android:layout_width="57dp"
+            android:layout_height="wrap_content"
+            android:text="Sales" />
+
+
+        <TextView android:id="@+id/tvField5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Customer Name" />
+
+        <TextView
+            android:id="@+id/tvField2"
+            android:layout_width="71dp"
+            android:layout_height="wrap_content"
+            android:text="Amount" />
+
+        <TextView
+            android:id="@+id/tvField3"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:text="Amount" />
+
+        <TextView android:id="@+id/tvField4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+
+
+        <!-- Add more TextViews as needed -->
+
+    </LinearLayout>
+</HorizontalScrollView>

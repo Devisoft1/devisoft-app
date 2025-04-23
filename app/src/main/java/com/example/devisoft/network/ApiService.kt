@@ -1,5 +1,6 @@
 package com.example.devisoft.network
 
+import com.example.devisoft.models.OutstandingItem
 import com.example.devisoft.models.Company
 import com.example.devisoft.models.FinancialYear
 import com.example.devisoft.models.LoginResponse
@@ -39,7 +40,17 @@ interface ApiService {
         @Query("toDate") toDate: String              // To date
     ): Response<List<Company>>
 
-
+    @GET("/api/outstanding-receivables")
+    suspend fun getOutstandingReceivables(
+        @Header("Authorization") token: String,
+        @Header("UserId") userId: String,
+        @Query("type") type: String = "Receivable",
+        @Query("dueDays") dueDays: Int = 0,
+        @Query("criteria") criteria: String = "datewise",
+        @Query("operator") operator: String = "",
+        @Query("date") date: String,
+        @Query("CompCode") compCode: String
+    ): Response<List<OutstandingItem>>
 
 }
 

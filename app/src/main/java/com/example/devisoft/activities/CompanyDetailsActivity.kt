@@ -1,15 +1,18 @@
 package com.example.devisoft.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.devisoft.R
-import com.example.devisoft.adapters.CompanyAdapter
-import com.example.devisoft.models.Company
+import com.example.devisoft.adapter.CompanyAdapter
 import com.example.devisoft.network.RetrofitInstance
 import com.example.devisoft.utils.PrefManager
 import kotlinx.coroutines.launch
@@ -23,38 +26,59 @@ class CompanyDetailsActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company_details)
 
+        // Set up the app bar title
+        val appBarTitle: TextView = findViewById(R.id.appBarTitle)
+        appBarTitle.text = "Company Details"  // You can dynamically change this based on data
+
+        val logoImage: ImageView = findViewById(R.id.appBarLogo)
+        logoImage.setOnClickListener {
+            val url = "https://devisoft.co.in/"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+
         recyclerView = findViewById(R.id.companyRecyclerView)
+
+        // Back button
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            val intent = Intent(this, YearSelectionActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
 
         val fromDate = intent.getStringExtra("FROM_DATE") ?: ""
         val toDate = intent.getStringExtra("TO_DATE") ?: ""
 
         Log.d("CompanyDetailsActivity", "Received fromDate: $fromDate, toDate: $toDate")
 
+        // Save the date range into PrefManager for persistence
         if (fromDate.isNotEmpty() && toDate.isNotEmpty()) {
+            val prefManager = PrefManager(this)
+            prefManager.saveDateRange(fromDate, toDate)
             fetchCompanyDetails(fromDate, toDate)
         } else {
-            Toast.makeText(this, "Invalid date range", Toast.LENGTH_SHORT).show()
+            // You can handle invalid date ranges here
+            Log.e("CompanyDetailsActivity", "Invalid date range provided.")
         }
     }
 
     private fun fetchCompanyDetails(fromDate: String, toDate: String) {
-        // Get the accessToken and userId from PrefManager
         val prefManager = PrefManager(this)
         val accessToken = prefManager.getAccessToken()
         val userId = prefManager.getUserId()
 
-        // Prepare the headers as per your request:
-        val tokenHeader = "Bearer $accessToken"  // Send as 'Bearer <accessToken>'
-        val userHeader = userId  // Just pass userId directly (no prefix)
+        val tokenHeader = "Bearer $accessToken"
+        val userHeader = userId
 
         Log.d("CompanyDetails", "Token: $tokenHeader, userId: $userHeader")
 
         lifecycleScope.launch {
             try {
-                // Make API call, passing both headers
                 val response = RetrofitInstance.api.getCompanyDetails(
                     token = tokenHeader,
-                    userId = userHeader.toString(),  // userId directly, no extra prefix
+                    userId = userHeader.toString(),
                     fromDate = fromDate,
                     toDate = toDate
                 )
@@ -64,20 +88,35 @@ class CompanyDetailsActivity : ComponentActivity() {
                     Log.d("CompanyDetails", "Fetched companies: $companies")
 
                     if (!companies.isNullOrEmpty()) {
-                        companyAdapter = CompanyAdapter(companies)
+                        // Set up the adapter with a click handler
+                        companyAdapter = CompanyAdapter(companies) { selectedCompany ->
+                            val selectedCode = selectedCompany.CompCode
+
+                            // Store the selected company code in local storage
+                            prefManager.setCompanyCode(selectedCode ?: "")
+
+                            // Send the company code to the next page (DashboardActivity)
+                            val intent = Intent(this@CompanyDetailsActivity, DashboardActivity::class.java)
+                            intent.putExtra("COMPANY_CODE", selectedCode) // Pass the company code
+                            startActivity(intent)
+
+                            // Optionally finish this activity to prevent returning here
+                            finish()
+                        }
+
                         recyclerView.layoutManager = LinearLayoutManager(this@CompanyDetailsActivity)
                         recyclerView.adapter = companyAdapter
                     } else {
-                        Toast.makeText(this@CompanyDetailsActivity, "No company data found.", Toast.LENGTH_SHORT).show()
+                        // Handle the case when no companies are fetched
+                        Log.e("CompanyDetails", "No companies found.")
                     }
-
                 } else {
                     Log.e("CompanyDetails", "API Error: ${response.code()} - ${response.message()}")
-                    Toast.makeText(this@CompanyDetailsActivity, "Failed to fetch company data", Toast.LENGTH_SHORT).show()
+                    // Handle the error appropriately
                 }
             } catch (e: Exception) {
                 Log.e("CompanyDetails", "Exception: ${e.message}", e)
-                Toast.makeText(this@CompanyDetailsActivity, "An error occurred", Toast.LENGTH_SHORT).show()
+                // Handle the exception appropriately
             }
         }
     }

@@ -18,11 +18,10 @@
         tools:targetApi="31"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <!-- Main Activity (Login) -->
+        <!-- Splash Activity (launches first) -->
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,19 +29,46 @@
             </intent-filter>
         </activity>
 
+        <!-- Main Activity (Login) -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
+
         <!-- Year Selection Activity -->
         <activity
             android:name=".activities.YearSelectionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
 
-        <!-- Add the new CompanyDetailsActivity -->
+        <!-- Company Details Activity -->
         <activity
             android:name=".activities.CompanyDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
+
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
+        <activity
+            android:name=".activities.OutstandingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
+        <activity
+            android:name=".activities.OutstandingReceivableActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
+
+        <activity
+            android:name=".activities.AppBarActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
 
     </application>
 

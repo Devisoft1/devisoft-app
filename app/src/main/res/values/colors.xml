@@ -14,6 +14,12 @@
     <color name="backgroundLight">#FAFAFA</color>
     <color name="textPrimary">#212121</color>
     <color name="textSecondary">#757575</color>
+    <color name="lightGrey">#F2F2F2</color>
+    <color name="icon_color">#000000</color> <!-- Dark color for icons -->
+
+
+
+
 
 
 </resources>
