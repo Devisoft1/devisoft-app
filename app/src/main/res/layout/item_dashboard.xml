@@ -31,9 +31,9 @@
     <!-- Amount/Text -->
     <TextView
         android:id="@+id/cardAmount"
-        android:layout_width="60dp"
+        android:layout_width="81dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="120dp"
         android:gravity="end"
         android:text=" ₹ 0.00"
         android:textAlignment="textStart"

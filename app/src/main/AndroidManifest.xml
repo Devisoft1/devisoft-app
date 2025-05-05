@@ -70,6 +70,17 @@
             android:exported="true" />
 
 
+        <activity
+            android:name=".activities.TodaySalesActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
+
+        <activity
+            android:name=".activities.TodayPurchaseActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
     </application>
 
 </manifest>

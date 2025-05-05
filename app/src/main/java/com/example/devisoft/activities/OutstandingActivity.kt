@@ -31,10 +31,27 @@ class OutstandingActivity : AppCompatActivity() {
         appBarTitle.text = "Outstanding"
 
         val logoImage: ImageView = findViewById(R.id.appBarLogo)
-        logoImage.setOnClickListener {
-            val url = "https://devisoft.co.in/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+
+        logoImage.setOnClickListener { view ->
+            val popupMenu = PopupMenu(this, view)
+
+            // Add menu item programmatically
+            popupMenu.menu.add(0, 1, 0, "Website") // (groupId, itemId, order, title)
+
+            // Handle menu item clicks
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    1 -> {
+                        val url = "https://devisoft.co.in/"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
         }
 
         // Back button

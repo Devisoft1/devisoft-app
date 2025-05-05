@@ -1,18 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Optional App Bar -->
-    <include layout="@layout/app_bar" />
+    <!-- App Bar -->
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
-    <!-- Scrollable content -->
+    <!-- Dropdown for Date Filter -->
+    <Spinner
+        android:id="@+id/dateFilterSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- Custom Date Picker Layout -->
+    <LinearLayout
+        android:id="@+id/customDateLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/dateFilterSpinner"
+        android:layout_marginTop="16dp"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/selectStartDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Start Date" />
+
+        <Button
+            android:id="@+id/selectEndDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select End Date" />
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customDateLayout"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -21,47 +60,127 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="2dp">
+            android:padding="16dp">
 
-            <!-- Optional App Bar -->
-            <include layout="@layout/app_bar" />
-
-            <!-- Sale Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="Today's Sale"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/saleRecyclerView"
+            <!-- Today's Sale Group -->
+            <LinearLayout
+                android:id="@+id/today_sales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginBottom="5dp" />
+                android:orientation="vertical"
+                android:background="@drawable/border"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true">
 
-            <!-- Purchase Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="Today's Purchase"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"/>
+                <!-- Horizontal LinearLayout for logo and today's sale text -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start"
+                    android:layout_marginBottom="8dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/purchaseRecyclerView"
+                    <!-- Logo -->
+                    <ImageView
+                        android:id="@+id/sales_logo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/total_sales"
+                        android:layout_marginEnd="8dp" />
+
+                    <!-- Today's Sale Text -->
+                    <TextView
+                        android:id="@+id/today_sales_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Today's Sale"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Items 2 & 3 beside each other -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/sale_item_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sale Item 2"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="8dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Today's Purchase Group -->
+            <LinearLayout
+                android:id="@+id/today_purchase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:orientation="vertical"
+                android:background="@drawable/border"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <!-- Horizontal LinearLayout for logo and today's purchase text -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Logo -->
+                    <ImageView
+                        android:id="@+id/purchase_logo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/total_purchase"
+                        android:layout_marginEnd="8dp" />
+
+                    <!-- Today's Purchase Text -->
+                    <TextView
+                        android:id="@+id/today_purchase_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Today's Purchase"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Items 2 & 3 beside each other -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/purchase_item_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Purchase Item 2"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="8dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Fixed Bottom Navigation -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
@@ -73,4 +192,5 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemTextColor="@color/blue"
         app:itemIconTint="@color/icon_color" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

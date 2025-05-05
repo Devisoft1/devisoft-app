@@ -1,3 +1,5 @@
+package com.example.devisoft.adapter
+
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -8,27 +10,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.devisoft.R
 import com.example.devisoft.models.DashboardItem
 
-class DashboardAdapter(private val items: List<DashboardItem>) :
-    RecyclerView.Adapter<DashboardAdapter.DashboardViewHolder>() {
+class TodaySalesAdapter(private val items: List<DashboardItem>) :
+    RecyclerView.Adapter<TodaySalesAdapter.SalesViewHolder>() {
 
-    inner class DashboardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class SalesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.cardIcon)
         val title: TextView = itemView.findViewById(R.id.cardTitle)
         val amount: TextView = itemView.findViewById(R.id.cardAmount)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SalesViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_dashboard, parent, false)
-        return DashboardViewHolder(view)
+        return SalesViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: DashboardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SalesViewHolder, position: Int) {
         val item = items[position]
         holder.icon.setImageResource(item.iconResId)
         holder.title.text = item.title
-
-        // Render color using HTML formatting
         holder.amount.text = Html.fromHtml(item.amount, Html.FROM_HTML_MODE_COMPACT)
     }
 
